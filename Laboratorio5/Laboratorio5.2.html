@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratotio 5.2</title>
+</head>
+<body>
+Ejemplo de subida de archivos al servidor web
+<br/><br/>
+<form action="Laboratorio5.2.php" method="post" enctype="multipart/form-data">
+<input type="file" name="nombre_archivo_cliente" /><br/><br/>
+<input type="submit" name="enviar" value="Enviar"/>
+<input type="hidden" name="max_file_size" value='1'>
+</body>
+</html>
