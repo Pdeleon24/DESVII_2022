@@ -1,6 +1,5 @@
 <?php
-class usuariosMBD
-{
+class UsuariosMDB{
     private $mongo_client;
     private $mongo_host;
     private $mongo_user;
@@ -9,8 +8,7 @@ class usuariosMBD
     private $mongo_collection;
     private $mongo_document;
 
-    function __construct()
-    {
+    function __construct(){
         $this->mongo_host = "localhost:27017";
         $this->mongo_user = "";
         $this->mongo_pswd = "";
@@ -19,38 +17,39 @@ class usuariosMBD
         $this->conectarMongodb();
     }
 
-    public function conectarMongodb()
-    {
+    public function conectarMongodb(){
         try {
             $this->mongo_client = new MongoDB\Driver\Manager("mongodb://" . $this->mongo_host);
-        } catch (Exception $e) {
-            die("Error al conectar con MongoDB: " . $e->getMessage());
+        } 
+        catch (Exception $e) {
+            die("Ocurrio la siguiente excepcion al tratar de conectar a la base de datos: " . $e->getMessage());
         }
     }
 
-    public function insertarUsuario($nombre, $apellido, $email, $edad)
-    {
+    public function insertarRegistro($nombre, $apellido, $email, $edad){
         try {
-            $this->mongo_document = new MongoDB\Driver\BulkWrite();
-            $doc - ['id' => new MongoDB\BSON\ObjectId(), 'nombre' -> $nombre, 'apellido' -> $apellido, 'email' -> $email, 'edad' ->intval($edad)];
+            $this->mongo_document = new MongoDB\Driver\BulkWrite;
+
+            $doc = ['_id' => new MongoDB\BSON\ObjectID, 'nombre' =>"$nombre", 'apellido' => "$apellido", 'email' => "$email", 'edad'=>intval($edad)];
             $this->mongo_document->insert($doc);
-            $this->mongo_client->executeBulkWrite("$this->mongo_database.$this->mongo_collection", $this->mongo_document);
-        } catch (MongoDB\Driver\Exception\Exception $e) {
-            echo "Error al insertar el usuario: ".$e->getMessage();
+
+            $this->mongo_client->executeBulkWrite($this->mongo_database.'.'.$this->mongo_collection, $this->mongo_document);
+        } 
+        catch (MongoDB\Driver\Exception\Exception $e) {
+            echo "Ocurrio la siguiente excepcion al tratar de guardar el registro: ", $e->getMessage(), "\n";
         }
     }
 
-    public function obtenerUsuarios()
-    {
+    public function obtenerRegistros(){
         try {
             $query = new MongoDB\Driver\Query([]);
-            $rows = $this->mongo_client->executeQuery("$this->mongo_database.$this->mongo_collection", $query);
+            $rows = $this->mongo_client->executeQuery($this->mongo_database.'.'.$this->mongo_collection, $query);
         
             foreach ($rows as $row) {
-                echo "Nombre: ".$row->nombre." Apellido: ".$row->apellido." Email: ".$row->email." Edad: ".$row->edad."<br>";
+                echo "ID: $row->_id - Nombre Completo: $row->nombre $row->apellido - E-mail: $row->email - Edad: $row->edad <br>";
             }
         } catch (MongoDB\Driver\Exception\Exception $e) {
-            echo "Error al obtener los usuarios: ".$e->getMessage();
+            echo "Ocurrio la siguiente excepcion al tratar de leer los regitros: ", $e->getMessage(), "\n";
         }
     }
 }

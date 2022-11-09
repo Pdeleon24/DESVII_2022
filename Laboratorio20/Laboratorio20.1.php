@@ -8,25 +8,25 @@
 </head>
 <body>
     <form action="Laboratorio20.1.php" method="POST">
-        Nombre: <input type="text" name="nombre" id="nombre"><br>
-        Apellido: <input type="text" name="apellido" id="apellido"><br>
-        Email: <input type="email" name="email" id="email"><br>
-        Edad: <input type="number" name="edad" id="edad" min="0" max="120"><br>
+        Nombre: <input type="text" name="nombre" required><br>
+        Apellido: <input type="text" name="apellido" required><br>
+        Email: <input type="email" name="email" ><br>
+        Edad: <input type="number" name="edad" min="0" max="120"><br>
         <input type="submit" name="guardar" value="Guardar datos">
     </form>
 
     <?php
-        include("usuariosMDB.php");
-        $usrs = new usuariosMBD();
+        include("UsuariosMDB.php");
+        $usrs = new UsuariosMDB();
 
-        if (array_key_exists("guardar", $_POST)) {
-            $usrs->insertarUsuario($_REQUEST["nombre"], $_REQUEST["apellido"], $_REQUEST["email"], $_REQUEST["edad"]);
-            echo "Registro insertado correctamente";
+        if (array_key_exists('guardar', $_POST)) {
+            $usrs->insertarRegistro($_REQUEST['nombre'], $_REQUEST['apellido'], $_REQUEST['email'], $_REQUEST['edad']);
+            echo "Registro insertado exitosamente <br><br>";
         }
 
-        echo "<h2>Usuarios</h2>";
+        echo "Registros en la coleccion usuaios: <br>";
         
-        $usrs->obtenerUsuarios();
+        $usrs->obtenerRegistros();
 
 
 
